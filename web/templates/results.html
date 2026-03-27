@@ -241,70 +241,54 @@ toast.classList.add("hidden")
 
 // enviar
 
-async function prepareAndSubmit(e){
+async function prepareAndSubmit(e) {
+    e.preventDefault();
 
-e.preventDefault()
+    const table = document.getElementById('movementsTable');
+    const rows = table.querySelectorAll('tbody tr');
+    const movementsData = [];
 
-const table=document.getElementById('movementsTable')
-const rows=table.querySelectorAll('tbody tr')
-const data=[]
+    // 1. Recoger los datos de la tabla
+    rows.forEach(row => {
+        movementsData.push({
+            date: row.querySelector('.row-date')?.value || '',
+            description: row.querySelector('.row-desc')?.value || '',
+            category_id: parseInt(row.querySelector('.row-cat')?.value || '0'),
+            amount: parseFloat(row.querySelector('.row-amount')?.value || '0'),
+            type: row.querySelector('.row-type')?.value || ''
+        });
+    });
 
-rows.forEach(row=>{
+    // 2. Armar el objeto JSON final
+    const payload = {
+        period_month: document.querySelector('input[name="period_month"]').value,
+        file_name: document.querySelector('input[name="file_name"]').value,
+        movements: movementsData
+    };
 
-const date=row.querySelector('.row-date')?.value || ''
-const description=row.querySelector('.row-desc')?.value || ''
-const category=row.querySelector('.row-cat')?.value || '0'
-const amountRaw=row.querySelector('.row-amount')?.value || '0'
-const type=row.querySelector('.row-type')?.value || ''
+    mostrarLoading();
 
-data.push({
+    try {
+        // 3. Enviar como application/json
+        const response = await fetch("/save-movements", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
 
-date:date,
-description:description,
-category_id:parseInt(category),
-amount:parseFloat(amountRaw) || 0,
-type:type
+        const text = await response.text();
 
-})
-
-})
-
-document.getElementById('movements_json').value=JSON.stringify(data)
-
-const form=document.getElementById("saveForm")
-const formData=new FormData(form)
-
-mostrarLoading()
-
-try{
-
-const response=await fetch("/save-movements",{
-
-method:"POST",
-body:formData
-
-})
-
-const text=await response.text()
-
-if(response.ok){
-
-mostrarExito(text)
-
-}else{
-
-mostrarError(text)
-
+        if (response.ok) {
+            mostrarExito(text);
+        } else {
+            mostrarError(text);
+        }
+    } catch (err) {
+        mostrarError("Error de conexión con el servidor");
+    }
 }
-
-}catch(err){
-
-mostrarError("Error de conexión con el servidor")
-
-}
-
-}
-
 </script>
 
 </body>

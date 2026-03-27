@@ -6,6 +6,7 @@ import (
 	"track-my-money/internal/adapters/handlers"
 	"track-my-money/internal/adapters/parsers"
 
+	"track-my-money/internal/core/domain"
 	"track-my-money/internal/core/services"
 
 	"github.com/gin-gonic/gin"
@@ -19,9 +20,12 @@ func InitServer(r *gin.Engine) {
 
 	r.LoadHTMLGlob("web/templates/*.html")
 	extractor := parsers.NewPDFExtractor()
-	service := services.NewService(extractor)
+	parserFactory := parsers.NewParserFactory()
+	rules := domain.GetDefaultRules()
+	var categories []domain.Category
+	categorizer := services.NewCategorizer(rules, categories)
+	service := services.NewService(extractor, parserFactory, categorizer)
 	handler := handlers.NewHandler(service)
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 

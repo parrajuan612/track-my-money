@@ -11,5 +11,6 @@ func InitRouter(r *gin.Engine, handler *handlers.Handler) {
 	v1 := r.Group("/api/v1")
 	{
 		v1.POST("/statements/parse", handler.ExtractStatementData)
+		v1.POST("/movements/bulk", handler.SaveMovements)
 	}
 }
