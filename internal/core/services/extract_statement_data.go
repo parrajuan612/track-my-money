@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"io"
 	"track-my-money/internal/core/domain"
 )
@@ -20,7 +21,7 @@ func (s *service) ExtractStatementData(file io.Reader, fileName string, password
 	for i := range movements {
 		s.categorizer.Categorize(&movements[i])
 	}
-
+	fmt.Println(movements)
 	return movements, periodMonth, nil
 
 }

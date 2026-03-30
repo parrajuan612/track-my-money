@@ -18,7 +18,7 @@ Subir otro
 </a>
 </div>
 
-<form id="saveForm" method="POST" action="/save-movements" onsubmit="prepareAndSubmit(event)">
+<form id="saveForm" method="POST" action="/api/v1/movements/bulk" onsubmit="prepareAndSubmit(event)">
 
 <input type="hidden" name="period_month" value="{{ .Periodmonth }}">
 <input type="hidden" name="file_name" value="{{ .Filename }}">
@@ -57,33 +57,20 @@ value="{{ $m.Description }}">
 </td>
 
 <td class="p-4">
-<select class="row-cat w-full border rounded-lg p-2">
-
-<option value="1" {{ if eq $m.CategoryID 1 }}selected{{ end }}>
-Restaurante/Comida/Supermercado
-</option>
-
-<option value="2" {{ if eq $m.CategoryID 2 }}selected{{ end }}>
-Ropa/Calzado
-</option>
-
-<option value="3" {{ if eq $m.CategoryID 3 }}selected{{ end }}>
-Salud/Deporte
-</option>
-
-<option value="4" {{ if eq $m.CategoryID 4 }}selected{{ end }}>
-Servicios/Suscripciones
-</option>
-
-<option value="5" {{ if eq $m.CategoryID 5 }}selected{{ end }}>
-Transporte
-</option>
-
-<option value="12" {{ if eq $m.CategoryID 12 }}selected{{ end }}>
-Otros Gastos
-</option>
-
-</select>
+    <select class="row-cat w-full border rounded-lg p-2">
+        <option value="1" {{ if eq $m.CategoryID 1 }}selected{{ end }}>Restaurante/Comida/Supermercado</option>
+        <option value="2" {{ if eq $m.CategoryID 2 }}selected{{ end }}>Ropa/Calzado</option>
+        <option value="3" {{ if eq $m.CategoryID 3 }}selected{{ end }}>Salud/Deporte</option>
+        <option value="4" {{ if eq $m.CategoryID 4 }}selected{{ end }}>Servicios/Suscripciones</option>
+        <option value="5" {{ if eq $m.CategoryID 5 }}selected{{ end }}>Transporte</option>
+        <option value="6" {{ if eq $m.CategoryID 6 }}selected{{ end }}>Viajes</option>
+        <option value="7" {{ if eq $m.CategoryID 7 }}selected{{ end }}>Educación</option>
+        <option value="8" {{ if eq $m.CategoryID 8 }}selected{{ end }}>Entretenimiento</option>
+        <option value="9" {{ if eq $m.CategoryID 9 }}selected{{ end }}>Hogar/Alquiler</option>
+        <option value="10" {{ if eq $m.CategoryID 10 }}selected{{ end }}>Salario</option>
+        <option value="11" {{ if eq $m.CategoryID 11 }}selected{{ end }}>Otros Ingresos</option>
+        <option value="12" {{ if eq $m.CategoryID 12 }}selected{{ end }}>Otros Gastos</option>
+    </select>
 </td>
 
 <td class="p-4 text-right font-bold {{ if eq $m.Type "income" }} text-green-600 {{ else }} text-red-600 {{ end }}">
@@ -270,7 +257,7 @@ async function prepareAndSubmit(e) {
 
     try {
         // 3. Enviar como application/json
-        const response = await fetch("/save-movements", {
+        const response = await fetch("/api/v1/movements/bulk", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
