@@ -26,3 +26,13 @@ type CategoryDistributionResponse struct {
 	TotalExpenses float64          `json:"total_expenses"`
 	Categories    []CategoryReport `json:"categories"`
 }
+type TimeSeriesData struct {
+	Label   string  `json:"label"` // "Oct 2025", "15/10", "Lunes"
+	Income  float64 `json:"income"`
+	Expense float64 `json:"expense"`
+}
+
+type MoneyFlowResponse struct {
+	PeriodType string           `json:"period_type"` // "1D", "1M", "1Y"
+	Data       []TimeSeriesData `json:"data"`
+}

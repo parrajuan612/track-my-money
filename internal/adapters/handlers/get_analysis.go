@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"strconv"
 	"time"
+	"track-my-money/internal/core/domain"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -31,6 +33,34 @@ func (h *Handler) GetAnalysis(c *gin.Context) {
 			return
 		}
 		c.JSON(200, report)
+	case "money-flow":
+		timeRange := c.DefaultQuery("range", "1m")
+		accountIDStr := c.Query("account_id")
+		bankIDStr := c.Query("bank_id")
+		var bankID *int
+		var accountID *uuid.UUID
+
+		if accountIDStr != "" {
+			id, _ := uuid.Parse(accountIDStr)
+			accountID = &id
+		}
+		if bankIDStr != "" {
+			id, err := strconv.Atoi(bankIDStr) // Convertir string a entero
+			if err == nil {
+				bankID = &id
+			}
+		}
+		req := domain.MoneyFlowRequest{
+			Range:     timeRange,
+			AccountID: accountID,
+			BankID:    bankID,
+		}
+		data, err := h.service.GetMoneyFlow(c.Request.Context(), userUUID, req)
+		if err != nil {
+			c.JSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(200, data)
 	default:
 		c.JSON(400, gin.H{"error": "Tipo de análisis no válido o no especificado"})
 	}

@@ -39,7 +39,6 @@ func InitServer(r *gin.Engine) {
 		{ID: 11, Name: "Otros Ingresos"},
 		{ID: 12, Name: "Otros Gastos"},
 	}
-
 	categorizer := services.NewCategorizer(rules, categories)
 	repo := postgres.NewStatementRepository(db)
 	analysisRepo := postgres.NewAnalysisRepository(db)
