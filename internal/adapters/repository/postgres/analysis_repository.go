@@ -2,21 +2,11 @@ package postgres
 
 import (
 	"context"
-	"track-my-money/internal/core/domain/ports"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
-type analysisRepository struct {
-	db *gorm.DB
-}
-
-func NewAnalysisRepository(db *gorm.DB) ports.AnalysisRepository {
-	return &analysisRepository{db: db}
-}
-
-func (r *analysisRepository) GetMonthlyTotals(ctx context.Context, userID uuid.UUID, month string) (float64, float64, error) {
+func (r *postgresRepository) GetMonthlyTotals(ctx context.Context, userID uuid.UUID, month string) (float64, float64, error) {
 	var results []struct {
 		Type   string
 		Amount float64

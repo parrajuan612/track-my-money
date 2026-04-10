@@ -9,7 +9,7 @@ import (
 
 func (s *service) GetCategoryDistribution(ctx context.Context, userID uuid.UUID, month string) (domain.CategoryDistributionResponse, error) {
 
-	categories, err := s.analysisRepo.GetExpensesByCategory(ctx, userID, month)
+	categories, err := s.repo.GetExpensesByCategory(ctx, userID, month)
 	if err != nil {
 		return domain.CategoryDistributionResponse{}, err
 	}

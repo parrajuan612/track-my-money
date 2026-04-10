@@ -40,9 +40,9 @@ func InitServer(r *gin.Engine) {
 		{ID: 12, Name: "Otros Gastos"},
 	}
 	categorizer := services.NewCategorizer(rules, categories)
-	repo := postgres.NewStatementRepository(db)
-	analysisRepo := postgres.NewAnalysisRepository(db)
-	service := services.NewService(extractor, parserFactory, categorizer, repo, analysisRepo)
+	repo := postgres.NewPostgresRepository(db)
+
+	service := services.NewService(extractor, parserFactory, categorizer, repo)
 	handler := handlers.NewHandler(service)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

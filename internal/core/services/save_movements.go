@@ -37,5 +37,5 @@ func (s *service) SaveMovements(ctx context.Context, req domain.SaveStatementReq
 		PeriodMonth: req.PeriodMonth,
 	}
 
-	return s.repository.SaveStatementWithMovements(ctx, &statement, domainMovements)
+	return s.repo.SaveStatementWithMovements(ctx, &statement, domainMovements)
 }

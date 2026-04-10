@@ -61,6 +61,7 @@ func (h *Handler) GetAnalysis(c *gin.Context) {
 			return
 		}
 		c.JSON(200, data)
+
 	default:
 		c.JSON(400, gin.H{"error": "Tipo de análisis no válido o no especificado"})
 	}

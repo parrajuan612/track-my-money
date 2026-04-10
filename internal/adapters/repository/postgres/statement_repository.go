@@ -3,19 +3,11 @@ package postgres
 import (
 	"context"
 	"track-my-money/internal/core/domain"
-	"track-my-money/internal/core/domain/ports"
 
 	"gorm.io/gorm"
 )
 
-type statementRepository struct {
-	db *gorm.DB
-}
-
-func NewStatementRepository(db *gorm.DB) ports.Repository {
-	return &statementRepository{db: db}
-}
-func (r *statementRepository) SaveStatementWithMovements(ctx context.Context, stmt *domain.Statement, movs []domain.Movement) error {
+func (r *postgresRepository) SaveStatementWithMovements(ctx context.Context, stmt *domain.Statement, movs []domain.Movement) error {
 
 	return r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		stmtModel := StatementModel{

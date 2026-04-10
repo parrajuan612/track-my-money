@@ -13,5 +13,6 @@ func InitRouter(r *gin.Engine, handler *handlers.Handler) {
 		v1.POST("/statements/parse", handler.ExtractStatementData)
 		v1.POST("/movements/bulk", handler.SaveMovements)
 		v1.GET("/analysis", handler.GetAnalysis)
+		v1.GET("/movements", handler.GetMovements)
 	}
 }

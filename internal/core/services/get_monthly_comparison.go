@@ -16,11 +16,11 @@ func (s *service) GetMonthlyComparison(ctx context.Context, userID uuid.UUID, cu
 		return domain.ComparisonResponse{}, fmt.Errorf("formato de mes inválido: %w", err)
 	}
 	prevMonthStr := t.AddDate(0, -1, 0).Format(layout)
-	currInc, currExp, err := s.analysisRepo.GetMonthlyTotals(ctx, userID, currentMonth)
+	currInc, currExp, err := s.repo.GetMonthlyTotals(ctx, userID, currentMonth)
 	if err != nil {
 		return domain.ComparisonResponse{}, err
 	}
-	prevInc, prevExp, err := s.analysisRepo.GetMonthlyTotals(ctx, userID, prevMonthStr)
+	prevInc, prevExp, err := s.repo.GetMonthlyTotals(ctx, userID, prevMonthStr)
 	if err != nil {
 		return domain.ComparisonResponse{}, err
 	}

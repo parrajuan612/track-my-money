@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (r *analysisRepository) GetExpensesByCategory(ctx context.Context, userID uuid.UUID, month string) ([]domain.CategoryReport, error) {
+func (r *postgresRepository) GetExpensesByCategory(ctx context.Context, userID uuid.UUID, month string) ([]domain.CategoryReport, error) {
 	var reports []domain.CategoryReport
 
 	// Query con Join para traer el nombre de la categoría

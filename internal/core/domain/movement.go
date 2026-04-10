@@ -30,3 +30,30 @@ const (
 	TypeIncome  MovementType = "income"
 	TypeExpense MovementType = "expense"
 )
+
+type MovementFilters struct {
+	UserID     uuid.UUID
+	StartDate  *time.Time
+	EndDate    *time.Time
+	BankID     *int
+	AccountID  *uuid.UUID
+	CategoryID *int
+	Type       *string
+	Query      *string
+	Page       int
+	PageSize   int
+	SortBy     string
+	SortOrder  string
+}
+
+type MovementTable struct {
+	ID          uuid.UUID
+	Date        time.Time
+	Description string
+	Amount      float64
+	Type        string
+	// Campos legibles para el usuario
+	CategoryName string `json:"category_name"`
+	AccountName  string `json:"account_name"`
+	BankName     string `json:"bank_name"`
+}

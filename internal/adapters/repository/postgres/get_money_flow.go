@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (r *analysisRepository) GetMoneyFlow(ctx context.Context, userID uuid.UUID, startDate time.Time, groupBy string, accountID *uuid.UUID, bankID *int) ([]domain.TimeSeriesData, error) {
+func (r *postgresRepository) GetMoneyFlow(ctx context.Context, userID uuid.UUID, startDate time.Time, groupBy string, accountID *uuid.UUID, bankID *int) ([]domain.TimeSeriesData, error) {
 	var results []domain.TimeSeriesData
 
 	// 1. Iniciamos la base de la consulta
@@ -31,8 +31,8 @@ func (r *analysisRepository) GetMoneyFlow(ctx context.Context, userID uuid.UUID,
 	}
 
 	// 4. Agrupación y Orden (Agrupamos por la fecha real para que el orden sea correcto)
-	err := query.Group("m.date, label").
-		Order("m.date ASC").
+	err := query.Group("label").
+		Order("MIN(m.date) ASC").
 		Scan(&results).Error
 
 	return results, err
