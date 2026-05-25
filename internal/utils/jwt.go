@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/google/uuid"
 )
 
 type CustomClaims struct {
@@ -13,16 +12,16 @@ type CustomClaims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateAccessToken(userID uuid.UUID) (string, error) {
+// 1. Cambiamos el parámetro a string
+func GenerateAccessToken(userID string) (string, error) {
 
 	secret := os.Getenv("JWT_SECRET")
 	if secret == "" {
-
 		secret = "clave_secreta_super_segura_para_el_mvp_123"
 	}
 
 	claims := CustomClaims{
-		UserID: userID.String(),
+		UserID: userID, // 2. Como ya es string, le quitamos el .String()
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(15 * time.Minute)), // Expira en 15 minutos
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

@@ -22,6 +22,7 @@ func InitRouter(r *gin.Engine, handler *handlers.Handler) {
 		{
 			auth.POST("/login", handler.Login)
 			auth.POST("/google", handler.LoginGoogle)
+			auth.POST("/register", handler.Register)
 		}
 
 		v1.POST("/statements/parse", handler.ExtractStatementData)

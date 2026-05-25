@@ -2,12 +2,10 @@ package domain
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type User struct {
-	ID           uuid.UUID `json:"id"`
+	ID           string    `json:"id" gorm:"primaryKey;type:uuid;default:gen_random_uuid()"`
 	Name         string    `json:"name"`
 	Email        string    `json:"email"`
 	PasswordHash *string   `json:"-"`

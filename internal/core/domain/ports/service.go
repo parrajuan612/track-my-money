@@ -17,4 +17,5 @@ type Service interface {
 	GetMovements(ctx context.Context, filters domain.MovementFilters) ([]domain.MovementTable, int64, error)
 	Login(ctx context.Context, email string, password string) (string, *domain.User, error)
 	LoginWithGoogle(ctx context.Context, idToken string) (string, *domain.User, error)
+	Register(ctx context.Context, name, email, password string) (string, *domain.User, error)
 }

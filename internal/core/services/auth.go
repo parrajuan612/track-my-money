@@ -105,3 +105,43 @@ func (s *service) LoginWithGoogle(ctx context.Context, idTokenStr string) (strin
 
 	return token, user, nil
 }
+func (s *service) Register(ctx context.Context, name, email, password string) (string, *domain.User, error) {
+	// 1. Validar si el correo ya existe en la base de datos
+	existingUser, err := s.repo.GetUserByEmail(ctx, email)
+	if err != nil {
+		return "", nil, errors.New("error al verificar el correo en la base de datos")
+	}
+	if existingUser != nil {
+		return "", nil, errors.New("el correo electrónico ya está registrado")
+	}
+
+	// 2. Generar el Hash de la contraseña con bcrypt
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", nil, errors.New("error al encriptar la contraseña")
+	}
+	hashString := string(hashedPassword)
+
+	// 3. Crear el objeto del nuevo usuario
+	newUser := &domain.User{
+		Name:         name,
+		Email:        email,
+		PasswordHash: &hashString, // Guardamos el hash, NUNCA el texto plano
+		AuthProvider: "local",
+		IsActive:     true, // Lo activamos por defecto
+	}
+
+	// 4. Guardar en Postgres (GORM se encargará de generar el UUID automáticamente)
+	err = s.repo.CreateUser(ctx, newUser)
+	if err != nil {
+		return "", nil, errors.New("error al registrar el usuario")
+	}
+
+	// 5. Generar el Access Token para auto-loguear al usuario
+	token, err := utils.GenerateAccessToken(newUser.ID)
+	if err != nil {
+		return "", nil, errors.New("usuario creado, pero hubo un error al generar la sesión")
+	}
+
+	return token, newUser, nil
+}
