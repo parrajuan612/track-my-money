@@ -26,4 +26,6 @@ type AppRepository interface {
 	StatementRepository
 	AnalysisRepository
 	MovementRepository
+	GetUserByEmail(ctx context.Context, email string) (*domain.User, error)
+	CreateUser(ctx context.Context, user *domain.User) error
 }

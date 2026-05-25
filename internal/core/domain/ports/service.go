@@ -15,4 +15,6 @@ type Service interface {
 	GetCategoryDistribution(ctx context.Context, userID uuid.UUID, month string) (domain.CategoryDistributionResponse, error)
 	GetMoneyFlow(ctx context.Context, userID uuid.UUID, req domain.MoneyFlowRequest) ([]domain.TimeSeriesData, error)
 	GetMovements(ctx context.Context, filters domain.MovementFilters) ([]domain.MovementTable, int64, error)
+	Login(ctx context.Context, email string, password string) (string, *domain.User, error)
+	LoginWithGoogle(ctx context.Context, idToken string) (string, *domain.User, error)
 }
