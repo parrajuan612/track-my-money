@@ -24,9 +24,9 @@ func (h *Handler) ExtractStatementData(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "results.html", gin.H{
-		"Movements":   movements,
-		"Periodmonth": periodMonth,
-		"Filename":    header.Filename,
+	c.JSON(http.StatusOK, gin.H{
+		"data":         movements,
+		"period_month": periodMonth,
+		"file_name":    header.Filename,
 	})
 }
