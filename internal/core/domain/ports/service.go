@@ -12,7 +12,7 @@ type Service interface {
 	ExtractStatementData(file io.Reader, fileName string, password string, bankID string) ([]domain.Movement, string, error)
 	SaveMovements(c context.Context, req domain.SaveStatementRequest) error
 	GetMonthlyComparison(ctx context.Context, userID uuid.UUID, month string) (domain.ComparisonResponse, error)
-	GetCategoryDistribution(ctx context.Context, userID uuid.UUID, month string) (domain.CategoryDistributionResponse, error)
+	GetCategoryDistribution(ctx context.Context, userID uuid.UUID, startDate string, endDate string) (domain.CategoryDistributionResponse, error)
 	GetMoneyFlow(ctx context.Context, userID uuid.UUID, req domain.MoneyFlowRequest) ([]domain.TimeSeriesData, error)
 	GetMovements(ctx context.Context, filters domain.MovementFilters) ([]domain.MovementTable, int64, error)
 	Login(ctx context.Context, email string, password string) (string, *domain.User, error)

@@ -26,8 +26,11 @@ func (h *Handler) GetAnalysis(c *gin.Context) {
 			return
 		}
 		c.JSON(200, report)
-	case "category-distribution": // <-- El nuevo type
-		report, err := h.service.GetCategoryDistribution(c.Request.Context(), userUUID, month)
+	case "category-distribution":
+		startDate := c.Query("start_date")
+		endDate := c.Query("end_date")
+
+		report, err := h.service.GetCategoryDistribution(c.Request.Context(), userUUID, startDate, endDate)
 		if err != nil {
 			c.JSON(500, gin.H{"error": err.Error()})
 			return

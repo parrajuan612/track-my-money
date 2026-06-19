@@ -7,16 +7,18 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *service) GetCategoryDistribution(ctx context.Context, userID uuid.UUID, month string) (domain.CategoryDistributionResponse, error) {
+func (s *service) GetCategoryDistribution(ctx context.Context, userID uuid.UUID, startDate string, endDate string) (domain.CategoryDistributionResponse, error) {
 
-	categories, err := s.repo.GetExpensesByCategory(ctx, userID, month)
+	categories, err := s.repo.GetExpensesByCategory(ctx, userID, startDate, endDate)
 	if err != nil {
 		return domain.CategoryDistributionResponse{}, err
 	}
+
 	var totalExpenses float64
 	for _, cat := range categories {
 		totalExpenses += cat.Amount
 	}
+
 	if totalExpenses > 0 {
 		for i := range categories {
 			categories[i].Percentage = (categories[i].Amount / totalExpenses) * 100
