@@ -48,7 +48,7 @@ func (h *Handler) GetAnalysis(c *gin.Context) {
 			accountID = &id
 		}
 		if bankIDStr != "" {
-			id, err := strconv.Atoi(bankIDStr) // Convertir string a entero
+			id, err := strconv.Atoi(bankIDStr)
 			if err == nil {
 				bankID = &id
 			}
@@ -64,7 +64,23 @@ func (h *Handler) GetAnalysis(c *gin.Context) {
 			return
 		}
 		c.JSON(200, data)
+	case "trends":
+		startDate := c.Query("start_date")
+		endDate := c.Query("end_date")
 
+		var catID *int
+		if catStr := c.Query("category_id"); catStr != "" {
+			if id, err := strconv.Atoi(catStr); err == nil {
+				catID = &id
+			}
+		}
+
+		trends, err := h.service.GetExpenseTrends(c.Request.Context(), userUUID, startDate, endDate, catID)
+		if err != nil {
+			c.JSON(500, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(200, trends)
 	default:
 		c.JSON(400, gin.H{"error": "Tipo de análisis no válido o no especificado"})
 	}

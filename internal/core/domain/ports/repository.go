@@ -28,4 +28,5 @@ type AppRepository interface {
 	MovementRepository
 	GetUserByEmail(ctx context.Context, email string) (*domain.User, error)
 	CreateUser(ctx context.Context, user *domain.User) error
+	GetExpenseTrends(ctx context.Context, userID uuid.UUID, startDate string, endDate string, categoryID *int) ([]domain.TrendReport, error)
 }

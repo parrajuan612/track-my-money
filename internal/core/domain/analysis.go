@@ -27,12 +27,16 @@ type CategoryDistributionResponse struct {
 	Categories    []CategoryReport `json:"categories"`
 }
 type TimeSeriesData struct {
-	Label   string  `json:"label"` // "Oct 2025", "15/10", "Lunes"
+	Label   string  `json:"label"`
 	Income  float64 `json:"income"`
 	Expense float64 `json:"expense"`
 }
 
 type MoneyFlowResponse struct {
-	PeriodType string           `json:"period_type"` // "1D", "1M", "1Y"
+	PeriodType string           `json:"period_type"`
 	Data       []TimeSeriesData `json:"data"`
+}
+type TrendReport struct {
+	Name   string  `gorm:"column:name" json:"name"`
+	Amount float64 `gorm:"column:amount" json:"amount"`
 }
