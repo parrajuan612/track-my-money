@@ -57,3 +57,18 @@ type MovementTable struct {
 	AccountName  string `json:"account_name"`
 	BankName     string `json:"bank_name"`
 }
+
+type UpdateMovementRequest struct {
+	Description string  `json:"description" binding:"required"`
+	Amount      float64 `json:"amount" binding:"required"`
+	Type        string  `json:"type" binding:"required"`
+	CategoryID  int     `json:"category_id" binding:"required"`
+}
+
+type CreateMovementRequest struct {
+	Date        string  `json:"date" binding:"required"`
+	Description string  `json:"description" binding:"required"`
+	Amount      float64 `json:"amount" binding:"required"`
+	Type        string  `json:"type" binding:"required"`
+	CategoryID  int     `json:"category_id" binding:"required"`
+}
