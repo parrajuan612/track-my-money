@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"net/http"
 	"strconv"
 	"time"
 	"track-my-money/internal/core/domain"
@@ -10,13 +11,23 @@ import (
 )
 
 func (h *Handler) GetAnalysis(c *gin.Context) {
+	// 1. Extraemos el ID del usuario real desde el token JWT
+	userIDStr, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "No autorizado"})
+		return
+	}
+	userUUID, err := uuid.Parse(userIDStr.(string))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID de usuario inválido"})
+		return
+	}
 
 	analysisType := c.Query("type")
 	month := c.Query("month")
 	if month == "" {
 		month = time.Now().Format("2006-01")
 	}
-	userUUID, _ := uuid.Parse("296f368f-f7b4-4388-8934-209e146de03c")
 
 	switch analysisType {
 	case "monthly-summary":

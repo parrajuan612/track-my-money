@@ -1,6 +1,8 @@
 package domain
 
 type SaveStatementRequest struct {
+	AccountID   string               `json:"account_id" binding:"required"`
+	BankID      int                  `json:"bank_id" binding:"required"`
 	PeriodMonth string               `json:"period_month" binding:"required"`
 	FileName    string               `json:"file_name" binding:"required"`
 	Movements   []MovementRequestDTO `json:"movements" binding:"required,dive"`

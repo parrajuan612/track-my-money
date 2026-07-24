@@ -11,11 +11,22 @@ import (
 )
 
 func (h *Handler) GetMovements(c *gin.Context) {
-	userUUID, _ := uuid.Parse("296f368f-f7b4-4388-8934-209e146de03c")
+	// 1. Extraemos el ID del usuario real desde el token JWT
+	userIDStr, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "No autorizado"})
+		return
+	}
+	userUUID, err := uuid.Parse(userIDStr.(string))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID de usuario inválido"})
+		return
+	}
 
 	filters := domain.MovementFilters{
 		UserID: userUUID,
 	}
+
 	if page, err := strconv.Atoi(c.Query("page")); err == nil {
 		filters.Page = page
 	}

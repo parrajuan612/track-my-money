@@ -42,12 +42,15 @@ func InitRouter(r *gin.Engine, handler *handlers.Handler) {
 			// Movimientos
 			protected.GET("/movements", handler.GetMovements)
 			protected.PUT("/movements/:id", handler.UpdateMovement)
-			protected.POST("/movements", handler.CreateMovement) // <- Esta era la del 404
+			protected.POST("/movements", handler.CreateMovement)
 			protected.DELETE("/movements/:id", handler.DeleteMovement)
 			// Bancos y Cuentas
 			protected.GET("/banks", handler.GetBanks)
 			protected.GET("/accounts", handler.GetAccounts)
 			protected.POST("/accounts", handler.CreateAccount)
+
+			//Session
+			protected.GET("/auth/me", handler.GetMe)
 		}
 	}
 }
