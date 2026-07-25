@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+	"os" // <-- Agregado para poder leer el puerto de Railway
 	"track-my-money/internal/adapters/handlers"
 	"track-my-money/internal/adapters/parsers"
 	"track-my-money/internal/adapters/repository/postgres"
@@ -14,11 +15,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	port = ("9080")
-)
-
 func InitServer(r *gin.Engine) {
+	// 1. Configuramos el puerto dinámico para Railway
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9080" // Puerto por defecto si lo corres en tu PC
+	}
 
 	r.LoadHTMLGlob("web/templates/*.html")
 
@@ -54,6 +56,6 @@ func InitServer(r *gin.Engine) {
 
 	InitRouter(r, handler)
 
+	// 2. Usamos la variable port
 	r.Run(fmt.Sprintf(":%s", port))
-
 }
