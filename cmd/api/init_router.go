@@ -9,13 +9,13 @@ import (
 
 func InitRouter(r *gin.Engine, handler *handlers.Handler) {
 	// Configuración de CORS
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"},
+r.Use(cors.New(cors.Config{
+		// Agregamos tu URL de Vercel y dejamos localhost por si quieres seguir probando en tu PC
+		AllowOrigins:     []string{"http://localhost:3000", "https://track-my-money-web.vercel.app"},
 		AllowMethods:     []string{"POST", "GET", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "Accept"},
 		AllowCredentials: true,
 	}))
-
 	r.GET("/", handler.Home)
 
 	v1 := r.Group("/api/v1")
