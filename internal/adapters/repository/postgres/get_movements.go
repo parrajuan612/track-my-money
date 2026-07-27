@@ -10,8 +10,8 @@ func (r *postgresRepository) GetMovements(ctx context.Context, filters domain.Mo
 	var movements []domain.MovementTable
 	var total int64
 
-	// 1. SELECT con nombres legibles. Usamos el esquema movements. para cada tabla.
-	query := r.db.WithContext(ctx).Table("movements.movements m").
+	// 1. SELECT con nombres legibles. Usamos el esquema  para cada tabla.
+	query := r.db.WithContext(ctx).Table("movements m").
 		Select(`
             m.id, 
             m.date, 
@@ -22,10 +22,10 @@ func (r *postgresRepository) GetMovements(ctx context.Context, filters domain.Mo
             a.name as account_name, 
             b.name as bank_name
         `).
-		// 2. JOINS con el esquema movements. explícito
-		Joins("JOIN movements.categories c ON m.category_id = c.id").
-		Joins("JOIN movements.accounts a ON m.account_id = a.id").
-		Joins("JOIN movements.banks b ON a.bank_id = b.id").
+		// 2. JOINS con el esquema  explícito
+		Joins("JOIN categories c ON m.category_id = c.id").
+		Joins("JOIN accounts a ON m.account_id = a.id").
+		Joins("JOIN banks b ON a.bank_id = b.id").
 		Where("m.user_id = ? AND m.is_active = true", filters.UserID)
 
 	// 3. Filtros dinámicos (Usando el alias 'm' para evitar ambigüedad)

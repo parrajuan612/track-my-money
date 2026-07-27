@@ -11,7 +11,7 @@ func (r *postgresRepository) GetExpenseTrends(ctx context.Context, userID uuid.U
 	var trends []domain.TrendReport
 
 	query := r.db.WithContext(ctx).
-		Table("movements.movements m").
+		Table("movements m").
 		Select("to_char(m.date, 'YYYY-MM-DD') as name, SUM(ABS(m.amount)) as amount").
 		Where("m.user_id = ? AND m.type = 'expense'", userID)
 

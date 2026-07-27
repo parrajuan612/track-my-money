@@ -19,8 +19,8 @@ func (r *postgresRepository) UpdateMovement(ctx context.Context, movementID uuid
 	}
 
 	result := r.db.WithContext(ctx).
-		Table("movements.movements"). // Nombre exacto de tu tabla
-		Where("id = ?", movementID).  // Quitamos el filtro de user_id temporalmente
+		Table("movements").          // Nombre exacto de tu tabla
+		Where("id = ?", movementID). // Quitamos el filtro de user_id temporalmente
 		Updates(map[string]interface{}{
 			"description": req.Description,
 			"amount":      montoFinal, // Usamos el monto con el signo correcto

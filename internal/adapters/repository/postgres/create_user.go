@@ -8,7 +8,7 @@ import (
 func (r *postgresRepository) CreateUser(ctx context.Context, user *domain.User) error {
 
 	err := r.db.WithContext(ctx).
-		Table("movements.users").
+		Table("users").
 		Create(user).Error
 
 	return err

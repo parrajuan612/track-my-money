@@ -8,7 +8,7 @@ type Bank struct {
 }
 
 func (Bank) TableName() string {
-	return "movements.banks" // Especificamos el esquema 'movements'
+	return "banks" // Especificamos el esquema 'movements'
 }
 
 type Account struct {
@@ -23,7 +23,7 @@ type Account struct {
 }
 
 func (Account) TableName() string {
-	return "movements.accounts" // Especificamos el esquema 'movements'
+	return "accounts" // Especificamos el esquema 'movements'
 }
 
 type CreateAccountRequest struct {

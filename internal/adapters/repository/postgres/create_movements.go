@@ -12,7 +12,7 @@ func (r *postgresRepository) CreateMovement(ctx context.Context, userID uuid.UUI
 	var accountID uuid.UUID
 
 	// Buscamos la primera cuenta bancaria que le pertenezca a ESTE usuario
-	err := r.db.WithContext(ctx).Table("movements.accounts").
+	err := r.db.WithContext(ctx).Table("accounts").
 		Select("id").
 		Where("user_id = ?", userID).
 		Limit(1).
@@ -33,7 +33,7 @@ func (r *postgresRepository) CreateMovement(ctx context.Context, userID uuid.UUI
 	}
 
 	// Insertamos el registro en la base de datos
-	return r.db.WithContext(ctx).Table("movements.movements").Create(map[string]interface{}{
+	return r.db.WithContext(ctx).Table("movements").Create(map[string]interface{}{
 		"user_id":     userID,
 		"account_id":  accountID,
 		"category_id": req.CategoryID,

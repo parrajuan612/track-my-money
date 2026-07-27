@@ -10,7 +10,7 @@ func (r *postgresRepository) DeleteMovement(ctx context.Context, id string, user
 	// Usamos Exec con SQL directo para mayor seguridad y precisión,
 	// asegurando que solo el dueño del movimiento pueda borrarlo.
 	err := r.db.WithContext(ctx).Exec(
-		"DELETE FROM movements.movements WHERE id = ? AND user_id = ?",
+		"DELETE FROM movements WHERE id = ? AND user_id = ?",
 		id, userID,
 	).Error
 

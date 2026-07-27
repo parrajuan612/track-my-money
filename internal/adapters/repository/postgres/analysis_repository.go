@@ -12,7 +12,7 @@ func (r *postgresRepository) GetMonthlyTotals(ctx context.Context, userID uuid.U
 		Amount float64
 	}
 	err := r.db.WithContext(ctx).
-		Table("movements.movements").
+		Table("movements").
 		Select("type, SUM(ABS(amount)) as amount").
 		Where("user_id = ? AND to_char(date, 'YYYY-MM') = ?", userID, month).
 		Group("type").

@@ -12,9 +12,9 @@ func (r *postgresRepository) GetExpensesByCategory(ctx context.Context, userID u
 
 	// Empezamos la query base
 	query := r.db.WithContext(ctx).
-		Table("movements.movements m").
+		Table("movements m").
 		Select("c.name as category_name, SUM(ABS(m.amount)) as amount").
-		Joins("JOIN movements.categories c ON m.category_id = c.id").
+		Joins("JOIN categories c ON m.category_id = c.id").
 		Where("m.user_id = ? AND m.type = 'expense'", userID)
 
 	// Agregamos los filtros de fecha solo si nos los envían

@@ -12,7 +12,7 @@ func (r *postgresRepository) GetUserByEmail(ctx context.Context, email string) (
 	var user domain.User
 
 	err := r.db.WithContext(ctx).
-		Table("movements.users").
+		Table("users").
 		Where("email = ?", email).
 		First(&user).Error
 

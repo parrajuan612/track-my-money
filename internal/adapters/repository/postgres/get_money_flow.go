@@ -13,7 +13,7 @@ func (r *postgresRepository) GetMoneyFlow(ctx context.Context, userID uuid.UUID,
 	var results []domain.TimeSeriesData
 
 	// 1. Iniciamos la base de la consulta
-	query := r.db.WithContext(ctx).Table("movements.movements m").
+	query := r.db.WithContext(ctx).Table("movements m").
 		Select(fmt.Sprintf("TO_CHAR(m.date, '%s') as label, "+
 			"SUM(CASE WHEN m.type = 'income' THEN ABS(m.amount) ELSE 0 END) as income, "+
 			"SUM(CASE WHEN m.type = 'expense' THEN ABS(m.amount) ELSE 0 END) as expense", groupBy)).
@@ -26,7 +26,7 @@ func (r *postgresRepository) GetMoneyFlow(ctx context.Context, userID uuid.UUID,
 
 	// 3. Filtro dinámico: Por Banco (Requiere JOIN)
 	if bankID != nil {
-		query = query.Joins("JOIN movements.accounts a ON m.account_id = a.id").
+		query = query.Joins("JOIN accounts a ON m.account_id = a.id").
 			Where("a.bank_id = ?", *bankID)
 	}
 
