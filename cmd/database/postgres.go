@@ -10,16 +10,23 @@ import (
 )
 
 func InitPostgres() (*gorm.DB, error) {
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	name := os.Getenv("DB_NAME")
+	// 1. Intentamos leer la URL completa (Ideal para Railway)
+	dsn := os.Getenv("DATABASE_URL")
 
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/Bogota",
-		host, user, password, name, port,
-	)
+	// 2. Si está vacía (ej. en tu PC local), armamos el DSN manual
+	if dsn == "" {
+		user := os.Getenv("DB_USER")
+		password := os.Getenv("DB_PASSWORD")
+		host := os.Getenv("DB_HOST")
+		port := os.Getenv("DB_PORT")
+		name := os.Getenv("DB_NAME")
+
+		dsn = fmt.Sprintf(
+			"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/Bogota",
+			host, user, password, name, port,
+		)
+	}
+
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
