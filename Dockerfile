@@ -1,9 +1,12 @@
-# Etapa 1: Compilación del binario de Go
-FROM golang:1.22-alpine AS builder
+# Etapa 1: Compilación del binario de Go (usando la versión más reciente de Alpine Go)
+FROM golang:alpine AS builder
+
+# Permitir que Go descargue la versión exacta si go.mod lo requiere
+ENV GOTOOLCHAIN=auto
 
 WORKDIR /app
 
-# Instalar dependencias de compilación
+# Copiar dependencias
 COPY go.mod go.sum ./
 RUN go mod download
 
