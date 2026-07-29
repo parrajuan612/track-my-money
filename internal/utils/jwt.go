@@ -23,7 +23,7 @@ func GenerateAccessToken(userID string) (string, error) {
 	claims := CustomClaims{
 		UserID: userID, // 2. Como ya es string, le quitamos el .String()
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(15 * time.Minute)), // Expira en 15 minutos
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    "track-my-money-api",
