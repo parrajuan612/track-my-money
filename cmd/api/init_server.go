@@ -22,8 +22,6 @@ func InitServer(r *gin.Engine) {
 		port = "9080" // Puerto por defecto si lo corres en tu PC
 	}
 
-	r.LoadHTMLGlob("web/templates/*.html")
-
 	db, err := database.InitPostgres()
 	if err != nil {
 		panic(fmt.Sprintf("No se pudo conectar a la DB:%v", err))
