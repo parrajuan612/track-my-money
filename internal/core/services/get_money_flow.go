@@ -64,12 +64,18 @@ func getRangeTime(tp string) (time.Time, string, int, error) {
         startDate = time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, time.Local)
         daysToFill = time.Date(now.Year(), now.Month()+1, 0, 0, 0, 0, 0, time.Local).Day()
         groupBy = "DD/MM"
-    case "1y":
+case "1y":
         daysToFill = 12
-        now := time.Now()
-
+        
+        // 1. COMENTA ESTA LÍNEA TEMPORALMENTE (Para que no use la fecha real)
+        // now := time.Now() 
+        
+        // 2. AGREGA ESTA LÍNEA (Tu máquina del tiempo al 31 de Julio de 2026)
+        now := time.Date(2026, time.July, 31, 12, 0, 0, 0, time.Local)
+        
+        // El resto del código que ya habías arreglado
         startDate = time.Date(now.Year()-1, now.Month(), 1, 0, 0, 0, 0, time.Local)
-        groupBy = "Mon YYYY" 
+        groupBy = "Mon YYYY"
     default:
         return time.Time{}, "", 0, fmt.Errorf("rango no soportado")
     }
