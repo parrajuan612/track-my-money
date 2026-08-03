@@ -50,27 +50,28 @@ func (s *service) GetMoneyFlow(ctx context.Context, userID uuid.UUID, req domain
 }
 
 func getRangeTime(tp string) (time.Time, string, int, error) {
-	var startDate time.Time
-	var groupBy string
-	var daysToFill int
+    var startDate time.Time
+    var groupBy string
+    var daysToFill int
 
-	switch tp {
-	case "1w":
-		daysToFill = 7
-		startDate = time.Now().AddDate(0, 0, -6)
-		groupBy = "DD/MM" // "30/03"
-	case "1m":
+    switch tp {
+    case "1w":
+        daysToFill = 7
+        startDate = time.Now().AddDate(0, 0, -6)
+        groupBy = "DD/MM" 
+    case "1m":
+        now := time.Now()
+        startDate = time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, time.Local)
+        daysToFill = time.Date(now.Year(), now.Month()+1, 0, 0, 0, 0, 0, time.Local).Day()
+        groupBy = "DD/MM"
+    case "1y":
+        daysToFill = 12
+        now := time.Now()
 
-		now := time.Now()
-		startDate = time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, time.Local)
-		daysToFill = time.Date(now.Year(), now.Month()+1, 0, 0, 0, 0, 0, time.Local).Day()
-		groupBy = "DD/MM"
-	case "1y":
-		daysToFill = 12
-		startDate = time.Now().AddDate(-1, 0, 0)
-		groupBy = "Mon YYYY" // "Mar 2026"
-	default:
-		return time.Time{}, "", 0, fmt.Errorf("rango no soportado")
-	}
-	return startDate, groupBy, daysToFill, nil
+        startDate = time.Date(now.Year()-1, now.Month(), 1, 0, 0, 0, 0, time.Local)
+        groupBy = "Mon YYYY" 
+    default:
+        return time.Time{}, "", 0, fmt.Errorf("rango no soportado")
+    }
+    return startDate, groupBy, daysToFill, nil
 }
