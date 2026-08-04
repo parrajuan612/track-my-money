@@ -1,3 +1,11 @@
+package handlers
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
 func (h *Handler) GetMe(c *gin.Context) {
 	// 1. El portero (middleware) ya validó el token y nos dejó el ID
 	userIDStr, exists := c.Get("user_id")
@@ -6,8 +14,8 @@ func (h *Handler) GetMe(c *gin.Context) {
 		return
 	}
 
-	// 2. Convertimos el ID (si viene como string desde el token) a UUID según sea necesario.
-	// Asumiendo que lo manejas como string y tienes un método GetUserByID en tu servicio:
+	// 2. Buscamos al usuario por su ID en la base de datos
+	// (Asegúrate de tener GetUserByID en tu servicio)
 	user, err := h.service.GetUserByID(c.Request.Context(), userIDStr.(string))
 	
 	if err != nil || user == nil {
@@ -19,7 +27,7 @@ func (h *Handler) GetMe(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"user": gin.H{
 			"id":    user.ID,
-			"name":  user.Name,  // ¡AQUÍ VIAJA EL NOMBRE REAL (ej: "juan camilo...")!
+			"name":  user.Name,  // ¡Aquí viaja el nombre real!
 			"email": user.Email,
 		},
 	})
