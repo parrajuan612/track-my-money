@@ -32,7 +32,7 @@ type AppRepository interface {
 	GetExpenseTrends(ctx context.Context, userID uuid.UUID, startDate string, endDate string, categoryID *int) ([]domain.TrendReport, error)
 	UpdateMovement(ctx context.Context, movementID uuid.UUID, userID uuid.UUID, req domain.UpdateMovementRequest) error
 	CreateMovement(ctx context.Context, userID uuid.UUID, req domain.CreateMovementRequest) error
-	// --- MÓDULO DE CUENTAS BANCARIAS ---
+	GetUserByID(ctx context.Context, id string) (*domain.User, error)
 	GetBanks(ctx context.Context) ([]domain.Bank, error)
 	DeleteMovement(ctx context.Context, id string, userID uuid.UUID) error
 	GetAccountsByUserID(ctx context.Context, userID string) ([]domain.Account, error)

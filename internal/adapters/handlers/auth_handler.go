@@ -17,7 +17,7 @@ func (h *Handler) GetMe(c *gin.Context) {
 	// 2. Buscamos al usuario por su ID en la base de datos
 	// (Asegúrate de tener GetUserByID en tu servicio)
 	user, err := h.service.GetUserByID(c.Request.Context(), userIDStr.(string))
-	
+
 	if err != nil || user == nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Usuario no encontrado en la base de datos"})
 		return
@@ -27,7 +27,7 @@ func (h *Handler) GetMe(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"user": gin.H{
 			"id":    user.ID,
-			"name":  user.Name,  // ¡Aquí viaja el nombre real!
+			"name":  user.Name, // ¡Aquí viaja el nombre real!
 			"email": user.Email,
 		},
 	})

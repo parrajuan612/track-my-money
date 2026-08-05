@@ -26,4 +26,5 @@ type Service interface {
 	GetAccountsByUserID(ctx context.Context, userID string) ([]domain.Account, error)
 	CreateAccount(ctx context.Context, account *domain.Account) error
 	DeleteMovement(ctx context.Context, id string, userID uuid.UUID) error
+	GetUserByID(ctx context.Context, id string) (*domain.User, error)
 }

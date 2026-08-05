@@ -27,3 +27,12 @@ func (r *postgresRepository) GetAccountsByUserID(ctx context.Context, userID str
 func (r *postgresRepository) CreateAccount(ctx context.Context, account *domain.Account) error {
 	return r.db.WithContext(ctx).Create(account).Error
 }
+func (r *postgresRepository) GetUserByID(ctx context.Context, id string) (*domain.User, error) {
+	var user domain.User
+	// GORM buscará al usuario por su ID
+	err := r.db.WithContext(ctx).Where("id = ?", id).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
