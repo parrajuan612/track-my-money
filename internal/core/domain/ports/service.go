@@ -9,7 +9,7 @@ import (
 )
 
 type Service interface {
-	ExtractStatementData(file io.Reader, fileName string, password string, bankID string) ([]domain.Movement, string, error)
+	ExtractStatementData(ctx context.Context, r io.Reader, bankName, month, year string) ([]domain.Movement, string, error)
 	SaveMovements(ctx context.Context, userID uuid.UUID, accountID uuid.UUID, req domain.SaveStatementRequest) error
 	GetMonthlyComparison(ctx context.Context, userID uuid.UUID, month string) (domain.ComparisonResponse, error)
 	GetCategoryDistribution(ctx context.Context, userID uuid.UUID, startDate string, endDate string) (domain.CategoryDistributionResponse, error)

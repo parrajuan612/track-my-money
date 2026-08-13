@@ -37,4 +37,6 @@ type AppRepository interface {
 	DeleteMovement(ctx context.Context, id string, userID uuid.UUID) error
 	GetAccountsByUserID(ctx context.Context, userID string) ([]domain.Account, error)
 	CreateAccount(ctx context.Context, account *domain.Account) error
+	GetBankRule(ctx context.Context, bankID int) (*domain.BankParsingRule, error)
+	SaveBankRule(ctx context.Context, rule *domain.BankParsingRule) error
 }
