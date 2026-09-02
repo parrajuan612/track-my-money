@@ -1,5 +1,5 @@
 # Etapa 1: Compilación
-FROM golang:alpine AS builder
+FROM golang:1.22-alpine AS builder 
 ENV GOTOOLCHAIN=auto
 WORKDIR /app
 
